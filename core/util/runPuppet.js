@@ -290,6 +290,7 @@ async function delegateSelectors (
   let captureViewport = false;
   const captureList = [];
   const captureJobs = [];
+  const isLocalImageFile = /^file\:\/\/\/.*\.(jpg|jpeg|gif|png|webp)$/.test(page.target().url());
 
   selectors.forEach(function (selector, selectorIndex) {
     const testPair = engineTools.generateTestPair(config, scenario, viewport, variantOrScenarioLabelSafe, scenarioLabelSafe, selectorIndex, selector);
@@ -300,7 +301,7 @@ async function delegateSelectors (
     }
 
     selectorMap[selector].filePath = filePath;
-    if (selector === BODY_SELECTOR || selector === DOCUMENT_SELECTOR) {
+    if (isLocalImageFile || selector === BODY_SELECTOR || selector === DOCUMENT_SELECTOR) {
       captureDocument = selector;
     } else if (selector === VIEWPORT_SELECTOR) {
       captureViewport = selector;
